@@ -6,7 +6,6 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 
 import 'package:flutter_vap/flutter_vap.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:path_provider/path_provider.dart';
 
 void main() {
@@ -37,68 +36,66 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return OKToast(
-      child: MaterialApp(
-        home: Scaffold(
-          body: Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: BoxDecoration(
-              color: Color.fromARGB(255, 140, 41, 43),
-              image: DecorationImage(image: AssetImage("static/bg.jpeg")),
-            ),
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CupertinoButton(
-                      color: Colors.purple,
-                      child: Text(
-                          "download video source${isDownload ? "(✅)" : ""}"),
-                      onPressed: _download,
-                    ),
-                    CupertinoButton(
-                      color: Colors.purple,
-                      child: Text("File1 play"),
-                      onPressed: () => _playFile(downloadPathList[0]),
-                    ),
-                    CupertinoButton(
-                      color: Colors.purple,
-                      child: Text("File2 play"),
-                      onPressed: () => _playFile(downloadPathList[1]),
-                    ),
-                    CupertinoButton(
-                      color: Colors.purple,
-                      child: Text("asset play"),
-                      onPressed: () => _playAsset("static/demo.mp4"),
-                    ),
-                    CupertinoButton(
-                      color: Colors.purple,
-                      child: Text("stop play"),
-                      onPressed: () => VapController.stop(),
-                    ),
-                    CupertinoButton(
-                      color: Colors.purple,
-                      child: Text("queue play"),
-                      onPressed: _queuePlay,
-                    ),
-                    CupertinoButton(
-                      color: Colors.purple,
-                      child: Text("cancel queue play"),
-                      onPressed: _cancelQueuePlay,
-                    ),
-                  ],
-                ),
-                IgnorePointer(
-                  // VapView可以通过外层包Container(),设置宽高来限制弹出视频的宽高
-                  // VapView can set the width and height through the outer package Container() to limit the width and height of the pop-up video
-                  child: VapView(),
-                ),
-              ],
-            ),
+    return MaterialApp(
+      home: Scaffold(
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, 140, 41, 43),
+            image: DecorationImage(image: AssetImage("static/bg.jpeg")),
+          ),
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CupertinoButton(
+                    color: Colors.purple,
+                    child:
+                        Text("download video source${isDownload ? "(✅)" : ""}"),
+                    onPressed: _download,
+                  ),
+                  CupertinoButton(
+                    color: Colors.purple,
+                    child: Text("File1 play"),
+                    onPressed: () => _playFile(downloadPathList[0]),
+                  ),
+                  CupertinoButton(
+                    color: Colors.purple,
+                    child: Text("File2 play"),
+                    onPressed: () => _playFile(downloadPathList[1]),
+                  ),
+                  CupertinoButton(
+                    color: Colors.purple,
+                    child: Text("asset play"),
+                    onPressed: () => _playAsset("static/demo.mp4"),
+                  ),
+                  CupertinoButton(
+                    color: Colors.purple,
+                    child: Text("stop play"),
+                    onPressed: () => VapController.stop(),
+                  ),
+                  CupertinoButton(
+                    color: Colors.purple,
+                    child: Text("queue play"),
+                    onPressed: _queuePlay,
+                  ),
+                  CupertinoButton(
+                    color: Colors.purple,
+                    child: Text("cancel queue play"),
+                    onPressed: _cancelQueuePlay,
+                  ),
+                ],
+              ),
+              IgnorePointer(
+                // VapView可以通过外层包Container(),设置宽高来限制弹出视频的宽高
+                // VapView can set the width and height through the outer package Container() to limit the width and height of the pop-up video
+                child: VapView(),
+              ),
+            ],
           ),
         ),
       ),
@@ -120,9 +117,7 @@ class _MyAppState extends State<MyApp> {
       return null;
     }
     var res = await VapController.playPath(path);
-    if (res!["status"] == "failure") {
-      showToast(res["errorMsg"]);
-    }
+    if (res!["status"] == "failure") {}
     return res;
   }
 
@@ -131,9 +126,7 @@ class _MyAppState extends State<MyApp> {
       return null;
     }
     var res = await VapController.playAsset(asset);
-    if (res!["status"] == "failure") {
-      showToast(res["errorMsg"]);
-    }
+    if (res!["status"] == "failure") {}
     return res;
   }
 

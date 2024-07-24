@@ -31,6 +31,7 @@ internal class NativeVapView(binaryMessenger: BinaryMessenger, context: Context?
     private var methodResult: MethodChannel.Result? = null
 
     init {
+        Log.d("flutter_vap", "Initializing flutter_vap plugin")
         vapView.setScaleType(ScaleType.FIT_CENTER)
         vapView.setAnimListener(object : IAnimListener {
             override fun onFailed(errorType: Int, errorMsg: String?) {
@@ -72,7 +73,6 @@ internal class NativeVapView(binaryMessenger: BinaryMessenger, context: Context?
 
     override fun dispose() {
         channel.setMethodCallHandler(null)
-
     }
 
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
