@@ -9,7 +9,6 @@ class FlutterVapPlugin : FlutterPlugin {
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         flutterPluginBinding.platformViewRegistry.registerViewFactory("flutter_vap", NativeVapViewFactory(flutterPluginBinding.binaryMessenger))
-        Log.d("flutter_vap", "Successfully registered vap plugin!!!")
     }
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
