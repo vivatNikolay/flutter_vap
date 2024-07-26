@@ -40,6 +40,7 @@
     NSObject<FlutterPluginRegistrar> * _registrar;
     QGVAPWrapView *_wrapView;
     FlutterResult _result;
+    NSInteger _repeatCount;
     //播放中就是ture，其他状态false
     BOOL playStatus;
 }
@@ -49,6 +50,7 @@
         playStatus = false;
         _view = [[UIView alloc] init];
         _registrar = registrar;
+        _repeatCount = (NSInteger)args[@"loops"] 
         FlutterMethodChannel* channel = [FlutterMethodChannel
             methodChannelWithName:@"flutter_vap_controller"
                   binaryMessenger:registrar.messenger];
@@ -57,6 +59,10 @@
         
     }
     return self;
+}
+
+- (NSObject<FlutterMessageCodec>*)createArgsCodec {
+    return [FlutterStandardMessageCodec sharedInstance];
 }
 
 #pragma mark --flutter调native回调
@@ -84,6 +90,7 @@
     }
     _wrapView = [[QGVAPWrapView alloc] initWithFrame:self.view.bounds];
     _wrapView.center = self.view.center;
+    _wrapView.repeatCount = _repeatCount
     _wrapView.contentMode = QGVAPWrapViewContentModeAspectFit;
     _wrapView.autoDestoryAfterFinish = YES;
     [self.view addSubview:_wrapView];

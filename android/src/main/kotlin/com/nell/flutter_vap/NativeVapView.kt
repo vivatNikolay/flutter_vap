@@ -31,6 +31,9 @@ internal class NativeVapView(binaryMessenger: BinaryMessenger, context: Context?
     private var methodResult: MethodChannel.Result? = null
 
     init {
+        if (creationParams?.containsKey("loops") == true) {
+            vapView.setLoop(creationParams!!.getOrDefault("loops", 1) as Int)
+        }
         vapView.setScaleType(ScaleType.FIT_CENTER)
         vapView.setAnimListener(object : IAnimListener {
             override fun onFailed(errorType: Int, errorMsg: String?) {
