@@ -11,8 +11,12 @@ class VapController {
     return _channel.invokeMethod('playPath', {"path": path});
   }
 
-  static Future<Map<dynamic, dynamic>?> playAsset(String asset) {
-    return _channel.invokeMethod('playAsset', {"asset": asset});
+  static Future<Map<dynamic, dynamic>?> playAsset(
+      String asset, int repeatCount) {
+    return _channel.invokeMethod('playAsset', {
+      "asset": asset,
+      "repeatCount": repeatCount,
+    });
   }
 
   static stop() {

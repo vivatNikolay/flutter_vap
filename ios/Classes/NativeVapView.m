@@ -40,7 +40,6 @@
     NSObject<FlutterPluginRegistrar> * _registrar;
     QGVAPWrapView *_wrapView;
     FlutterResult _result;
-    NSInteger _repeatCount;
     //播放中就是ture，其他状态false
     BOOL playStatus;
 }
@@ -50,7 +49,6 @@
         playStatus = false;
         _view = [[UIView alloc] init];
         _registrar = registrar;
-        _repeatCount = (NSInteger)args[@"loops"];
         FlutterMethodChannel* channel = [FlutterMethodChannel
             methodChannelWithName:@"flutter_vap_controller"
                   binaryMessenger:registrar.messenger];
@@ -69,12 +67,13 @@
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
     _result = result;
     if ([@"playPath" isEqualToString: call.method]) {
-        [self playByPath:call.arguments[@"path"]];
+        [self playByPath:call.arguments[@"path"] repeatCount:0];
     } else if ([@"playAsset" isEqualToString:call.method]) {
         //播放asset文件
         NSString* assetPath = [_registrar lookupKeyForAsset:call.arguments[@"asset"]];
         NSString* path = [[NSBundle mainBundle] pathForResource:assetPath ofType:nil];
-        [self playByPath:path];
+        NSInteger repeatCount = [call.arguments[@"repeatCount"] integerValue];
+        [self playByPath:path repeatCount:repeatCount];
     } else if ([@"stop" isEqualToString:call.method]) {
         if (_wrapView) {
             [_wrapView removeFromSuperview];
@@ -83,7 +82,7 @@
     }
 }
 
-- (void)playByPath:(NSString *)path{
+- (void)playByPath:(NSString *)path repeatCount:(NSInteger)repeatCount{
     //限制只能有一个视频在播放
     if (playStatus) {
         return;
@@ -93,7 +92,7 @@
     _wrapView.contentMode = QGVAPWrapViewContentModeAspectFit;
     _wrapView.autoDestoryAfterFinish = YES;
     [self.view addSubview:_wrapView];
-    [_wrapView vapWrapView_playHWDMP4:path repeatCount:_repeatCount delegate:self];
+    [_wrapView playHWDMP4:path repeatCount:repeatCount delegate:self];
 }
 
 

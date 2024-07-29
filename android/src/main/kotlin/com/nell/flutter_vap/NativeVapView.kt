@@ -23,7 +23,12 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 
-internal class NativeVapView(binaryMessenger: BinaryMessenger, context: Context?, id: Int, creationParams: Map<String?, Any?>?) : MethodChannel.MethodCallHandler, PlatformView {
+internal class NativeVapView(
+    binaryMessenger: BinaryMessenger,
+    context: Context?,
+    id: Int,
+    creationParams: Map<String?, Any?>?
+) : MethodChannel.MethodCallHandler, PlatformView {
     private val mContext: Context = context!!
 
     private val vapView: AnimView = AnimView(context!!)
@@ -31,9 +36,6 @@ internal class NativeVapView(binaryMessenger: BinaryMessenger, context: Context?
     private var methodResult: MethodChannel.Result? = null
 
     init {
-        if (creationParams?.containsKey("loops") == true) {
-            vapView.setLoop(creationParams!!.getOrDefault("loops", 1) as Int)
-        }
         vapView.setScaleType(ScaleType.FIT_CENTER)
         vapView.setAnimListener(object : IAnimListener {
             override fun onFailed(errorType: Int, errorMsg: String?) {
@@ -55,7 +57,7 @@ internal class NativeVapView(binaryMessenger: BinaryMessenger, context: Context?
             }
 
             override fun onVideoDestroy() {
-             
+
             }
 
             override fun onVideoRender(frameIndex: Int, config: AnimConfig?) {
@@ -85,11 +87,20 @@ internal class NativeVapView(binaryMessenger: BinaryMessenger, context: Context?
                     vapView.startPlay(File(it))
                 }
             }
+
             "playAsset" -> {
-                call.argument<String>("asset")?.let {
-                    vapView.startPlay(mContext.assets, "flutter_assets/$it")
+                val pathToAsset = call.argument<String>("asset")
+                val repeatCount = call.argument<Int>("repeatCount")
+                if (repeatCount != null) {
+                    vapView.setLoop(repeatCount!!)
                 }
+
+                vapView.startPlay(
+                    mContext.assets,
+                    "flutter_assets/$pathToAsset"
+                )
             }
+
             "stop" -> {
                 vapView.stopPlay()
             }

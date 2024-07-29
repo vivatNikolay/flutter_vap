@@ -2,17 +2,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 class VapViewForIos extends StatelessWidget {
-  const VapViewForIos({
-    this.loops = 1,
+  VapViewForIos({
+    super.key,
   });
 
-  final int loops;
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> creationParams = <String, dynamic>{
-      'loops': loops,
-    };
+    final Map<String, dynamic> creationParams = <String, dynamic>{};
     return UiKitView(
       viewType: "flutter_vap",
       layoutDirection: TextDirection.ltr,
