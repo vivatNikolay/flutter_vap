@@ -90,14 +90,10 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ],
               ),
-              SizedBox(
-                width: 64.0,
-                height: 64.0,
-                child: IgnorePointer(
-                  // VapView可以通过外层包Container(),设置宽高来限制弹出视频的宽高
-                  // VapView can set the width and height through the outer package Container() to limit the width and height of the pop-up video
-                  child: VapView(),
-                ),
+              IgnorePointer(
+                // VapView可以通过外层包Container(),设置宽高来限制弹出视频的宽高
+                // VapView can set the width and height through the outer package Container() to limit the width and height of the pop-up video
+                child: VapView(),
               ),
             ],
           ),
@@ -129,7 +125,7 @@ class _MyAppState extends State<MyApp> {
     if (asset == null) {
       return null;
     }
-    var res = await VapController.playAsset(asset, 10);
+    var res = await VapController.playAsset(asset, 0);
     if (res!["status"] == "failure") {}
     return res;
   }

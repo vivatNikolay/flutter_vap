@@ -10,7 +10,8 @@ project 'Runner', {
   'Release' => :release,
 }
 
-pod 'QGVAPlayer', :git => 'https://github.com/gasaichandesu/vap.git', :tag => 'v1.0'
+# pod 'QGVAPlayer', :git => 'https://github.com/gasaichandesu/vap.git', :tag => 'v1.0'
+pod 'QGVAPlayer', :path => '../../../../Projects/vap'
 
 def flutter_root
   generated_xcode_build_settings_path = File.expand_path(File.join('..', 'Flutter', 'Generated.xcconfig'), __FILE__)
